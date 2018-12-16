@@ -22,6 +22,11 @@ public:
 		leftSon = new node();
 		min = leftSon;
 	}
+
+
+	T get_min() {
+		return (min->getTree())->key;
+	}
 	
 	
 	T extract_min() {
@@ -51,31 +56,30 @@ public:
 		if (!(Ptr->haveSon()))
 			throw logic_error("there arent this pointer!");
 		tree* tc = Ptr->get_son();
-		while (tc->pr != nullptr)
+		while (tc->parent != nullptr)
 		{
-			swap(tc->pr, tc);
-			tc = tc->pr;
+			swap(tc->parent, tc);
+			tc = tc->parent;
 		}
 		min = tc->prNode;
 		extract_min();
 	}
 
 
-	void change(Pointer *Ptr, T value) {
-		if (!(Ptr->haveSon()))
+	void change(Pointer *ptr, T value) {
+		if (!(ptr->haveSon()))
 			throw logic_error("there arent this pointer!");
-		tree* tc = Ptr->get_son();
-		if (tc->key < value)
+		tree* cur = ptr->get_son();
+		if (cur->key < value)
 			throw  logic_error("you are increase!"); // we cannot do increase for logn
-		tc->key = value;
-		while (tc->parent != nullptr)
-		{
-			if (tc->parent->key <= tc->key)
+		cur->key = value;
+		while (cur->parent != nullptr) {
+			if (cur->parent->key <= cur->key)
 				break;
-			swap(tc->parent, tc);
-			tc = tc->parent;
+			swap(cur->parent, cur);
+			cur = cur->parent;
 		}
-		if (tc->parent == nullptr)
+		if (cur->parent == nullptr)
 			find_new_min();
 	}
 
@@ -103,7 +107,7 @@ private:
 	struct node;
 	struct tree;
 
-	Binomial_Heap(node* a) {
+	explicit Binomial_Heap(node* a) {
 		leftSon = a;
 		find_new_min();
 	}
@@ -310,6 +314,8 @@ struct Binomial_Heap<T>::node
 	node* left = nullptr;
 	node* right = nullptr;
 	node() = default;
+	node(const node&) = delete;
+	node& operator=(const node&) = delete;
 	
 	node(node* left) : left(left)
 	{}
@@ -363,153 +369,3 @@ struct Binomial_Heap<T>::node
 private:
 	tree* Tree = nullptr;
 };
-
-
-
-
-
-
-
-
-//#pragma once
-//
-//
-//template<class T>
-//
-//class BinomialHeap {
-//
-//private:
-//	struct node {
-//		node* left;
-//		node* right;
-//		node* parent;
-//		node* next;
-//		T key;
-//		int degree;
-//		node* own;
-//		~node() {
-//			if (left != nullptr) {
-//				~left();
-//			}
-//			if (next!= nullptr) {
-//				~next();
-//			}
-//			delete own;
-//		}
-//		void merge(node* I, node* other) {
-//			if (I->key < other->key) {
-//				other->parent = I;
-//				I->next = other->next;
-//				other->next = I->left;
-//				I->left = other;
-//			}
-//			else {
-//				I->parent = I;
-//				I->next = other->left;
-//				other->left = I;
-//			}
-//					
-//		}
-//	};
-//	class Pointer {
-//	
-//	private:
-//		node* ptr;
-//	
-//	public:
-//		friend class Binomial_Heap<T>;
-//	};
-//
-//	node* head;
-//	node* min;
-//
-//
-//public:
-//	BinomialHeap() {
-//		this->head = nullptr;
-//		this->min = nullptr;
-//	}
-//
-//
-//	T get_min() {
-//		return min->key;
-//	}
-//
-//
-//	bool is_Empty() {
-//		return (this->head == nullptr);
-//	}
-//
-//	Pointer insert(T value) {
-//		node* cur = new node;
-//		cur->key = value;
-//		cur->parent = nullptr; cur->next = nullptr; cur->right = nullptr; cur->degree = 0;
-//		Pointer res = cur;
-//		cur->own = res;
-//		BinomialHeap<T> a;
-//		a.head = cur;
-//		a.min = cur;
-//		merge(b);
-//		return res;
-//	}
-//
-//
-//	void merge(BinomialHeap &other) {
-//		if (head == nullptr) {
-//			head = other.head;
-//			min = other.min;
-//		}
-//		if (other.head == nullptr) return;
-//		node* list1_cur = head; node* list2_cur = other.head;
-//		node* last = list1_cur;
-//		if (head->degree > other.degree) {
-//			last = other.degree;
-//			list2_cur = other.head->next;
-//		}
-//		else {
-//			list1_cur = head->next;
-//		}
-//		head = last;
-//		while (list1_cur != nullptr && list2_cur != nullptr) {
-//			if (list1_cur->degree < list2->degree) {
-//				last->next = list1_cur;
-//				list1_cur = list1_cur->next;
-//			}
-//			else {
-//				last->next = list2_cur;
-//				list2_cur = list2_cur->next;
-//			}
-//		}
-//		while (list1_cur != nullptr) {
-//			last->next = list1_cur;
-//			list1_cur = list1_cur->next;
-//		}
-//		while (list2_cur != nullptr) {
-//			last->next = list1_cur;
-//			list2_cur = list2_cur->next;
-//		}
-//		last = head;
-//		node* now = last;
-//		node* cur = last->next;
-//		while (cur != nullptr) {
-//			if (cur->degree < now->degree) {
-//				last->next = cur;
-//				last = cur;
-//				cur = cur->next;
-//			}
-//			else {
-//				if (cur->degree == now->degree) {
-//					merge(now, cur);
-//					cur = now->next;
-//				}
-//				else {
-//					last->next = now;
-//					last = now;
-//					now = cur;
-//					cur = cur->next;
-//				}
-//			}
-//		}
-//		last->next = now;
-//    }
-//};
