@@ -3,6 +3,8 @@
 #include<gtest/gtest.h>
 #include "C:\Users\stepvah\Desktop\Heap\MyVector.h"
 #include "C:\Users\stepvah\Desktop\Heap\UsualHeap.h"
+#include "C:\Users\stepvah\Desktop\Heap\BinomialHeap.h"
+#include "C:\Users\stepvah\Desktop\Heap\FibonacciHeap.h"
 
 using std::logic_error;
 using std::out_of_range;
@@ -36,10 +38,9 @@ TEST_F(ClassDeclaration, pushback2) {
 	for (int i = 0; i < 100000; i++) {
 		ASSERT_EQ(res[i], a[i]);
 	}
-
-
 	delete[] res;
 }
+
 
 TEST_F(ClassDeclaration, popback1) {
 	vector<int> a;
@@ -53,6 +54,7 @@ TEST_F(ClassDeclaration, popback1) {
 		ASSERT_EQ(i + 1, a[i]);
 	}
 }
+
 
 TEST_F(ClassDeclaration, popback2) {
 	vector<int> a;
@@ -90,6 +92,7 @@ TEST_F(ClassDeclaration, Size_isEmpty) {
 	ASSERT_EQ(a.Real_size(), 0);
 	ASSERT_EQ(1, a.isEmpty());
 }
+
 
 TEST_F(ClassDeclaration, Resize) {
 	vector<int> a;
@@ -149,6 +152,8 @@ TEST_F(ClassDeclaration, some) {
 }
 
 
+
+///Tests_Heap
 
 TEST_F(ClassDeclaration, get_value_insert) {
 	heap<int> a;
@@ -347,6 +352,365 @@ TEST_F(ClassDeclaration, optimize_time) {
 		a.extract_min();
 	}
 }
+
+
+
+//BinomialHeap tests
+
+//TEST_F(ClassDeclaration, have_son) {
+//	for (int j = 0; j < 100; j++) {
+//		Binomial_Heap<int> a;
+//		int n = rand() % 100;
+//		for (int i = 0; i < n; i++)
+//		{
+//			a.insert(rand() % 100);
+//		}
+//		int tc = rand() % 100 + 200;
+//		Binomial_Heap<int>::Pointer ch = a.insert(tc);
+//		int sz = 0;
+//		n = rand() % 100;
+//		bool f = true;
+//		for (int i = 0; i < n; i++)
+//		{
+//			ASSERT_EQ(ch.haveSon(), f);
+//			if (rand() % 3)
+//			{
+//				if (sz) {
+//					if (a.extract_min() == tc) {
+//						f = false;
+//					}
+//					--sz;
+//				}
+//			}
+//			else
+//			{
+//				sz++;
+//				int tmp = rand() % 100;
+//				while (tmp == tc)
+//					tmp = rand() % 100;
+//				a.insert(tmp);
+//			}
+//		}
+//		ASSERT_EQ(ch.haveSon(), f);
+//		while (sz != 0)
+//		{
+//			ASSERT_EQ(ch.haveSon(), f);
+//			if (a.extract_min() == tc){
+//				f = false;
+//			}
+//			sz--;
+//		}
+//		ASSERT_EQ(ch.haveSon(), f);
+//	}
+//}
+//
+//
+//
+//TEST_F(ClassDeclaration, get_value) {
+//	for (int j = 0; j < 10; j++)
+//	{
+//		Binomial_Heap<int> a;
+//		int n = rand() % 100;
+//		for (int i = 0; i < n; ++i)
+//		{
+//			a.insert(rand());
+//		}
+//		int var = rand() % 100 + 200;
+//		Binomial_Heap<int>::Pointer ch = a.insert(var);
+//		int sz = 0;
+//		n = rand() % 100;
+//		for (int i = 0; i < n; i++)
+//		{
+//			if (rand() % 3)
+//			{
+//				if (sz)
+//				{
+//					a.extract_min();
+//					--sz;
+//				}
+//			}
+//			else
+//			{
+//				sz++;
+//				a.insert(rand() % 100);
+//			}
+//		}
+//		if (ch.haveSon())
+//			ASSERT_EQ(ch.get_value(), var);
+//	}
+//
+//	for (int j = 0; j < 100; j++)
+//	{
+//		Binomial_Heap<int> a;
+//		int n = rand() % 100;
+//		
+//		for (int i = 0; i < n; ++i){
+//			a.insert(rand() % 100);
+//		}
+//		int var = rand() % 100 + 200;
+//		Binomial_Heap<int>::Pointer ch = a.insert(var);
+//		int sz = 0;
+//		n = rand() % 100;
+//		for (int i = 0; i < n; i++)
+//		{
+//			if (rand() % 3)
+//			{
+//				if (sz)
+//				{
+//					a.extract_min();
+//					--sz;
+//				}
+//			}
+//			else
+//			{
+//				sz++;
+//				a.insert(rand());
+//			}
+//		}
+//		var = rand();
+//		if (ch.haveSon())
+//		{
+//			if (var > ch.get_value())
+//			{
+//				ASSERT_THROW(a.change(&ch, var), logic_error);
+//				var = ch.get_value();
+//			}
+//			a.change(&ch, var);
+//		}
+//		n = rand() % 100;
+//		for (int i = 0; i < n; i++)
+//		{
+//			if (rand() % 3)
+//			{
+//				if (sz)
+//				{
+//					a.extract_min();
+//					--sz;
+//				}
+//			}
+//			else
+//			{
+//				sz++;
+//				a.insert(rand() % 100);
+//			}
+//		}
+//		if (ch.haveSon())
+//			ASSERT_EQ(ch.get_value(), var);
+//	}
+//}
+
+
+TEST_F(ClassDeclaration, small_test1) {
+	Binomial_Heap<int> a;
+	a.insert(-2); a.insert(-12); a.insert(18); a.insert(18); a.insert(8); a.insert(-2);
+	ASSERT_EQ(a.extract_min(), -12);
+	a.insert(-12); a.insert(-2); a.insert(-2);
+	ASSERT_EQ(a.extract_min(), -12);
+	ASSERT_EQ(a.extract_min(), -2);
+	ASSERT_EQ(a.extract_min(), -2);
+	ASSERT_EQ(a.extract_min(), -2);
+	ASSERT_EQ(a.extract_min(), -2);
+	ASSERT_EQ(a.extract_min(), 8);
+	ASSERT_EQ(a.extract_min(), 18);
+	ASSERT_EQ(a.extract_min(), 18);
+	ASSERT_EQ(a.is_empty(), true);
+}
+
+TEST_F(ClassDeclaration, small_test2) {
+	Binomial_Heap<int> a;
+	a.insert(28);
+	a.insert(18);
+	ASSERT_EQ(a.extract_min(), 18);
+	ASSERT_EQ(a.extract_min(), 28);
+	ASSERT_THROW(a.extract_min(), logic_error);
+	a.insert(-12);
+	a.insert(8);
+	ASSERT_EQ(a.extract_min(), -12);
+	ASSERT_EQ(a.extract_min(), 8);
+	a.insert(-12);
+	ASSERT_EQ(a.extract_min(), -12);
+	ASSERT_EQ(a.is_empty(), true);
+}
+
+
+TEST_F(ClassDeclaration, heap_time)
+{
+	Binomial_Heap<int> a;
+	for (int i = 0; i <= 1000000; i++)
+		a.insert(1000000 - i);
+	for (int i = 0; i <= 1000000; i++) {
+		ASSERT_EQ(i, a.extract_min());
+	}
+}
+
+
+TEST_F(ClassDeclaration, heap_random) {
+	Binomial_Heap<int> a;
+	int arr[100000];
+	for (int i = 0; i < 100000; i++)
+	{
+		arr[i] = rand() % 100000;
+		a.insert(arr[i]);
+	}
+	std::sort(arr, arr + 100000);
+	for (int i = 0; i < 100000; i++)
+	{
+		ASSERT_EQ(arr[i], a.extract_min());
+
+	}
+}
+
+
+
+TEST_F(ClassDeclaration, heap_merge) {
+	Binomial_Heap<int> heap1;
+	heap1.insert(1); heap1.insert(2); heap1.insert(5); heap1.insert(3); heap1.insert(13); heap1.insert(11); heap1.insert(11);
+	Binomial_Heap<int> heap2;
+	heap2.insert(7); heap2.insert(6); heap2.insert(3); heap2.insert(8);
+	heap1.merge(heap2);
+	ASSERT_EQ(1, heap1.extract_min());
+	ASSERT_EQ(2, heap1.extract_min());
+	ASSERT_EQ(3, heap1.extract_min());
+	ASSERT_EQ(3, heap1.extract_min());
+	ASSERT_EQ(5, heap1.extract_min());
+	ASSERT_EQ(6, heap1.extract_min());
+	ASSERT_EQ(7, heap1.extract_min());
+	ASSERT_EQ(8, heap1.extract_min());
+	ASSERT_EQ(11, heap1.extract_min());
+	ASSERT_EQ(11, heap1.extract_min());
+	ASSERT_EQ(13, heap1.extract_min());
+	ASSERT_ANY_THROW(heap2.extract_min());
+	ASSERT_ANY_THROW(heap1.extract_min());
+}
+
+
+
+TEST_F(ClassDeclaration, small1) {
+	Fibonacci_Heap<int> a;
+	a.insert(-2);
+	a.insert(-12);
+	a.insert(18);
+	a.insert(18);
+	a.insert(8);
+	a.insert(-2);
+	ASSERT_EQ(a.extract_min(), -12);
+	//a.write();
+	a.insert(-12);
+	a.insert(-2);
+	a.insert(-2);
+	ASSERT_EQ(a.extract_min(), -12);
+	ASSERT_EQ(a.extract_min(), -2);
+	ASSERT_EQ(a.extract_min(), -2);
+	ASSERT_EQ(a.extract_min(), -2);
+	ASSERT_EQ(a.extract_min(), -2);
+	ASSERT_EQ(a.extract_min(), 8);
+	ASSERT_EQ(a.extract_min(), 18);
+	ASSERT_EQ(a.extract_min(), 18);
+	ASSERT_EQ(a.isEmpty(), true);
+}
+
+
+
+TEST_F(ClassDeclaration, small2) {
+	Fibonacci_Heap<int> h;
+	h.insert(28);
+	h.insert(18);
+	ASSERT_EQ(h.extract_min(), 18);
+	ASSERT_EQ(h.extract_min(), 28);
+	ASSERT_ANY_THROW(h.extract_min());
+	h.insert(-12);
+	h.insert(8);
+	ASSERT_EQ(h.extract_min(), -12);
+	ASSERT_EQ(h.extract_min(), 8);
+	h.insert(-12);
+	ASSERT_EQ(h.extract_min(), -12);
+	ASSERT_EQ(h.isEmpty(), true);
+}
+
+
+TEST_F(ClassDeclaration, small3) {
+	Fibonacci_Heap<int> h;
+	h.insert(-2);
+	h.insert(-12);
+	h.insert(18);
+	ASSERT_EQ(h.extract_min(), -12);
+	ASSERT_EQ(h.extract_min(), -2);
+	ASSERT_EQ(h.extract_min(), 18);
+	ASSERT_ANY_THROW(h.extract_min());
+	h.insert(8);
+	h.insert(8);
+	ASSERT_EQ(h.extract_min(), 8);
+	h.insert(-2);
+	h.insert(-12);
+	h.insert(8);
+	ASSERT_EQ(h.extract_min(), -12);
+	ASSERT_EQ(h.extract_min(), -2);
+	ASSERT_EQ(h.extract_min(), 8);
+	ASSERT_EQ(h.extract_min(), 8);
+	ASSERT_EQ(h.isEmpty(), true);
+}
+
+
+TEST_F(ClassDeclaration, merge) {
+	Fibonacci_Heap<int> heap1;
+	heap1.insert(1); heap1.insert(2); heap1.insert(5); heap1.insert(3); heap1.insert(13); heap1.insert(11); heap1.insert(11);
+	Fibonacci_Heap<int> heap2;
+	heap2.insert(7); heap2.insert(6); heap2.insert(3); heap2.insert(8);
+	heap1.merge(heap2);
+	ASSERT_EQ(1, heap1.extract_min());
+	ASSERT_EQ(2, heap1.extract_min());
+	ASSERT_EQ(3, heap1.extract_min());
+	ASSERT_EQ(3, heap1.extract_min());
+	ASSERT_EQ(5, heap1.extract_min());
+	ASSERT_EQ(6, heap1.extract_min());
+	ASSERT_EQ(7, heap1.extract_min());
+	ASSERT_EQ(8, heap1.extract_min());
+	ASSERT_EQ(11, heap1.extract_min());
+	ASSERT_EQ(11, heap1.extract_min());
+	ASSERT_EQ(13, heap1.extract_min());
+	ASSERT_ANY_THROW(heap2.extract_min());
+	ASSERT_ANY_THROW(heap1.extract_min());
+}
+
+
+TEST_F(ClassDeclaration, heap_time_2) {
+	Fibonacci_Heap<int> a;
+	for (int i = 0; i <= 100000; i++) {
+		a.insert(100000 - i);
+	}
+	for (int i = 0; i <= 100000; i++) {
+		ASSERT_EQ(i, a.extract_min());
+	}
+}
+
+
+
+
+TEST_F(ClassDeclaration, heap_random_2) {
+	Binomial_Heap<int> a;
+	int arr[100000];
+	for (int i = 0; i < 100000; i++)
+	{
+		arr[i] = rand() % 100000;
+		a.insert(arr[i]);
+	}
+	std::sort(arr, arr + 100000);
+	for (int i = 0; i < 100000; i++)
+	{
+		ASSERT_EQ(arr[i], a.extract_min());
+
+	}
+}
+
+
+
+
+
+
+
+
+
+
 
 
 
