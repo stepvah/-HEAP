@@ -765,6 +765,87 @@ TEST_F(ClassDeclaration, decrease1) {
 
 
 
+TEST_F(ClassDeclaration, decrease2) {
+	Fibonacci_Heap<int> a;
+	int i = 0;
+	Fibonacci_Heap<int>::Pointer ch1 = a.insert(2 * (i + 1));
+	i++;
+
+	Fibonacci_Heap<int>::Pointer ch2 = a.insert(2 * (i + 1));
+	i++;
+	Fibonacci_Heap<int>::Pointer ch3 = a.insert(2 * (i + 1));
+	i++;
+	Fibonacci_Heap<int>::Pointer ch4 = a.insert(2 * (i + 1));
+	i++;
+	Fibonacci_Heap<int>::Pointer ch5 = a.insert(2 * (i + 1));
+	i++;
+	Fibonacci_Heap<int>::Pointer ch6 = a.insert(2 * (i + 1));
+	i++;
+	Fibonacci_Heap<int>::Pointer ch7 = a.insert(2 * (i + 1));
+	i++;
+	Fibonacci_Heap<int>::Pointer ch8 = a.insert(2 * (i + 1));
+	i++;
+	Fibonacci_Heap<int>::Pointer ch9 = a.insert(2 * (i + 1));
+	i++;
+	Fibonacci_Heap<int>::Pointer ch10 = a.insert(2 * (i + 1));
+	i++;
+	i--;
+	std::cout << i << '\n';
+	a.decrease(&ch10, i + 1);
+	i--;
+	std::cout << i << '\n';
+	a.decrease(&ch9, i + 1);
+	i--;
+	std::cout << i << '\n';
+	a.decrease(&ch8, i + 1);
+	i--;
+	std::cout << i << '\n';
+	a.decrease(&ch7, i + 1);
+	i--;
+	std::cout << i << '\n';
+	a.decrease(&ch6, i + 1);
+	i--;
+	std::cout << i << '\n';
+	a.decrease(&ch5, i + 1);
+	i--;
+	std::cout << i << '\n';
+	a.decrease(&ch4, i + 1);
+	i--;
+	std::cout << i << '\n';
+	a.decrease(&ch3, i + 1);
+	i--;
+	std::cout << i << '\n';
+	a.decrease(&ch2, i + 1);
+	i--;
+	a.decrease(&ch1, i + 1);
+	ASSERT_EQ(i + 1, a.extract_min());
+	i++;
+
+	ASSERT_EQ(i + 1, a.extract_min());
+	i++;
+	ASSERT_EQ(i + 1, a.extract_min());
+	i++;
+	ASSERT_EQ(i + 1, a.extract_min());
+	i++;
+	ASSERT_EQ(i + 1, a.extract_min());
+	i++;
+	ASSERT_EQ(i + 1, a.extract_min());
+	i++;
+	ASSERT_EQ(i + 1, a.extract_min());
+	i++;
+	ASSERT_EQ(i + 1, a.extract_min());
+	i++;
+	ASSERT_EQ(i + 1, a.extract_min());
+	i++;
+	std:: cout << i << '\n';
+	ASSERT_EQ(i + 1, a.extract_min());
+	i++;
+
+}
+
+
+
+
 
 
 
